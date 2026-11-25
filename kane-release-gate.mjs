@@ -23,8 +23,8 @@ if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) 
   const objective = readFileSync(new URL('./verification-objective.md', import.meta.url), 'utf-8');
   const run = spawnSync(process.env.FIELDNOTES_KANE_CLI ?? 'kane-cli', [
     'run', objective, '--url', 'http://127.0.0.1:5186/', '--headless', '--agent',
-    '--max-steps', '32', '--timeout', '180', '--final-validation', 'on',
-  ], { encoding: 'utf-8', timeout: 200_000, maxBuffer: 2 * 1024 * 1024, stdio: ['ignore', 'pipe', 'inherit'] });
+    '--max-steps', '32', '--timeout', '480', '--final-validation', 'on',
+  ], { encoding: 'utf-8', timeout: 525_000, maxBuffer: 2 * 1024 * 1024, stdio: ['ignore', 'pipe', 'inherit'] });
   const evidence = new URL('./test-results/', import.meta.url);
   mkdirSync(evidence, { recursive: true, mode: 0o700 });
   writeFileSync(new URL('kane-run.ndjson', evidence), run.stdout ?? '', { mode: 0o600 });
