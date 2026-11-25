@@ -27,7 +27,7 @@
     <section class="card" aria-labelledby="booking-title">
       <h2 id="booking-title">Reserve a place</h2>
       <p class="card-intro">Demo registration. Your details stay in this browser.</p>
-      <form id="registration" novalidate>
+      <form id="registration" novalidate hidden>
         <div class="field">
           <label for="name">Full name</label>
           <input id="name" name="name" autocomplete="name" required maxlength="100" aria-describedby="name-error">
@@ -40,6 +40,7 @@
         </div>
         <button type="submit">Reserve my place</button>
       </form>
+      <noscript><p>Enable JavaScript to use this browser-local reservation demo.</p></noscript>
       <p class="error" id="save-error" role="alert" hidden>Your browser couldn’t save this registration. Check that storage is enabled and try again.</p>
       <section class="receipt" id="receipt" aria-labelledby="receipt-title" hidden>
         <h3 id="receipt-title" tabindex="-1">Place reserved</h3>

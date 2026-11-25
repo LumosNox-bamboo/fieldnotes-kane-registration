@@ -1,6 +1,6 @@
 # Fieldnotes Workshop Registration
 
-Fieldnotes is a registration demo for a fictional workshop in Heidelberg. It confirms a reservation, detects repeat registrations by normalized email, and offers a calendar file. Reservations stay in the current browser. There is no server-side capacity counter, attendee database, or email delivery.
+Fieldnotes is a registration demo for a fictional workshop in Heidelberg. It confirms a reservation, detects repeat registrations by normalized email, and offers a calendar file. Reservations stay in the current browser. There is no server-side capacity counter, attendee database, or email delivery. In browsers supporting Web Locks, simultaneous saves from tabs on the same origin are serialized.
 
 ## Run locally
 
@@ -13,14 +13,17 @@ Open `http://127.0.0.1:5186/`. Use a fictional address on `example.com` to try t
 ## Verify
 
 ```sh
-node --test registration.test.mjs
+node --test
 ```
 
-The unit tests check duplicate detection, storage failures, and the calendar’s UTC start and end. The browser acceptance flow covers invalid input, successful submission, and repeat submission after a reload. It checks that both receipts display the same reference even when the capitalization of the email changes.
+The tests check duplicate detection, storage failures, the calendar’s UTC times, and the Kane CLI release decision. The browser acceptance flow covers empty form validation, successful submission, hiding an old receipt when details are edited, and repeat submission after a reload with the same reference.
 
-To run the same acceptance flow with an authenticated Kane CLI:
+See [the verification record](VERIFICATION.md) for the reproduced bug and the follow-up browser checks.
+
+To run the acceptance flow with an authenticated Kane CLI, keep the local server running and execute:
 
 ```sh
-kane-cli run "$(cat verification-objective.md)" \
-  --url http://127.0.0.1:5186/ --headless --max-steps 30 --timeout 180
+node kane-release-gate.mjs
 ```
+
+The gate reads the [Kane CLI agent-mode verdict](https://www.testmuai.com/docs/kane-cli-agent-mode). It exits successfully only when the CLI exits successfully and the final `run_end` event reports `passed`. If it blocks release, inspect `test-results/kane-run.ndjson` and the CLI’s evidence for the failed checkpoint. Apply the fix without changing the acceptance criteria, then run the gate again. The raw results remain local and Git ignores them.

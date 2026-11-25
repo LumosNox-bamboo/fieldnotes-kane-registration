@@ -6,6 +6,7 @@ const email = form.elements.email;
 const receipt = document.querySelector('#receipt');
 const receiptTitle = document.querySelector('#receipt-title');
 const saveError = document.querySelector('#save-error');
+const submit = form.querySelector('button[type="submit"]');
 
 function showFieldError(field, invalid) {
   document.querySelector(`#${field.id}-error`).hidden = !invalid;
@@ -14,11 +15,16 @@ function showFieldError(field, invalid) {
 }
 
 for (const field of [name, email]) {
-  field.addEventListener('input', () => showFieldError(field, false));
+  field.addEventListener('input', () => {
+    showFieldError(field, false);
+    receipt.hidden = true;
+    saveError.hidden = true;
+  });
 }
 
-form.addEventListener('submit', event => {
+form.addEventListener('submit', async event => {
   event.preventDefault();
+  if (submit.disabled) return;
   receipt.hidden = true;
   saveError.hidden = true;
   const details = normalizeRegistration({ name: name.value, email: email.value });
@@ -32,12 +38,15 @@ form.addEventListener('submit', event => {
     return;
   }
 
+  submit.disabled = true;
+  name.readOnly = email.readOnly = true;
   try {
-    const { entry, duplicate } = reservePlace(
-      localStorage,
-      details,
-      () => `FN-${crypto.randomUUID().slice(0, 8).toUpperCase()}`,
+    const book = () => reservePlace(
+      localStorage, details, () => `FN-${crypto.randomUUID().slice(0, 8).toUpperCase()}`,
     );
+    const { entry, duplicate } = navigator.locks
+      ? await navigator.locks.request('fieldnotes-workshop-v1', book)
+      : book();
     receiptTitle.textContent = duplicate ? 'Already registered' : 'Place reserved';
     document.querySelector('#receipt-note').textContent = duplicate
       ? 'This email already has a reservation on this device.'
@@ -47,8 +56,12 @@ form.addEventListener('submit', event => {
     receiptTitle.focus();
   } catch {
     saveError.hidden = false;
+  } finally {
+    submit.disabled = false;
+    name.readOnly = email.readOnly = false;
   }
 });
 
 document.querySelector('#calendar').href =
   `data:text/calendar;charset=utf-8,${encodeURIComponent(calendarFile())}`;
+form.hidden = false;

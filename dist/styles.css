@@ -39,6 +39,7 @@ input[aria-invalid="true"] { border-color: #a12929; }
 :focus-visible { outline: 3px solid #28644c; outline-offset: 3px; }
 button { width: 100%; margin-top: 1.45rem; padding: .75rem 1.2rem; border: 0; border-radius: .5rem; background: var(--green); color: white; font: inherit; font-weight: 700; cursor: pointer; }
 button:hover { background: #0e402f; }
+button:disabled { opacity: .72; cursor: wait; }
 .error { margin: .35rem 0 0; color: #922424; font-size: .92rem; }
 .receipt { margin-top: 1.3rem; background: #edf6ee; border: 1px solid #c7ddcc; border-radius: .65rem; padding: 1rem 1.1rem; }
 .receipt h3 { margin: 0; font-size: 1.22rem; }
@@ -51,4 +52,5 @@ button:hover { background: #0e402f; }
   .masthead { min-height: 4rem; }
   .shell { grid-template-columns: minmax(0, 1fr); gap: 1.8rem; padding-block: 2.3rem; }
   .details { margin-top: 1.25rem; }
+  h1 { font-size: clamp(2.65rem, 12vw, 3.6rem); }
 }
