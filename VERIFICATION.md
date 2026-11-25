@@ -13,4 +13,10 @@ The original version (`804a769`) kept the previous booking receipt and calendar 
 | Open the page at 320 px and 390 px | The mobile layout activates with no horizontal scrolling. |
 | Read the calendar link | The file contains the advertised workshop time in UTC. |
 
-All browser checks use fictional addresses. These are development browser observations. The Kane CLI verdict is a separate step, produced by `node kane-release-gate.mjs` when the CLI is authenticated. The release gate’s tests use labeled synthetic event fixtures.
+All development browser checks use fictional addresses. The release gate’s unit tests use labeled synthetic event fixtures.
+
+## Kane CLI run, 25 November 2026
+
+Kane CLI 0.10.9 ran the checked-in objective on a fresh headless Chrome profile against `http://127.0.0.1:5186/`. The final `run_end` event reported `passed` and `Objective completed` after 202.4 seconds. The release gate returned `release: true`. The run covered empty-form errors and keyboard focus, a new reservation with a calendar link, hiding its receipt after editing the email, and reusing the original reference after a reload.
+
+The first two CLI attempts stopped before returning a final verdict and the gate blocked release both times. The retry extended the time limit while keeping the objective unchanged. The original stale-receipt bug was reproduced in the development browser. The completed Kane CLI run verified the repaired behavior.
