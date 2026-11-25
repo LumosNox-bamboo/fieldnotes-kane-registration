@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="A browser-local registration demo for a small research workshop.">
+  <title>Fieldnotes Workshop | Registration</title>
+  <link rel="stylesheet" href="./styles.css">
+  <script type="module" src="./app.mjs"></script>
+</head>
+<body>
+  <header class="masthead">
+    <a class="wordmark" href="#"><span class="mark" aria-hidden="true"></span>Fieldnotes</a>
+    <a class="header-link" href="#event-details">Event details</a>
+  </header>
+  <main class="shell">
+    <section class="event" id="event-details" aria-labelledby="event-title">
+      <p class="eyebrow">FIELDNOTES RESEARCH SERIES</p>
+      <h1 id="event-title">From question<br>to <em>study.</em></h1>
+      <p class="intro">Bring a question you’re curious about. Leave with a study plan you can start.</p>
+      <dl class="details">
+        <div><dt>When</dt><dd><time datetime="2026-12-03T17:30:00+01:00">Thu, 3 Dec 2026</time><span>17:30–19:00 CET</span></dd></div>
+        <div><dt>Where</dt><dd>Heidelberg<span>Workshop demo</span></dd></div>
+      </dl>
+    </section>
+
+    <section class="card" aria-labelledby="booking-title">
+      <h2 id="booking-title">Reserve a place</h2>
+      <p class="card-intro">Demo registration. Your details stay in this browser.</p>
+      <form id="registration" novalidate>
+        <div class="field">
+          <label for="name">Full name</label>
+          <input id="name" name="name" autocomplete="name" required maxlength="100" aria-describedby="name-error">
+          <p class="error" id="name-error" hidden>Enter your full name.</p>
+        </div>
+        <div class="field">
+          <label for="email">Email address</label>
+          <input id="email" name="email" type="email" autocomplete="email" required maxlength="254" aria-describedby="email-error">
+          <p class="error" id="email-error" hidden>Enter a valid email address.</p>
+        </div>
+        <button type="submit">Reserve my place</button>
+      </form>
+      <p class="error" id="save-error" role="alert" hidden>Your browser couldn’t save this registration. Check that storage is enabled and try again.</p>
+      <section class="receipt" id="receipt" aria-labelledby="receipt-title" hidden>
+        <h3 id="receipt-title" tabindex="-1">Place reserved</h3>
+        <p id="receipt-note"></p>
+        <p class="reference">Booking reference <strong id="booking-reference"></strong></p>
+        <a class="calendar" id="calendar" download="fieldnotes-workshop.ics">Add to calendar</a>
+      </section>
+    </section>
+  </main>
+  <footer class="footer"><span>Fieldnotes Workshop</span><span>Fictional event · Registration demo</span></footer>
+</body>
+</html>
